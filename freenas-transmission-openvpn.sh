@@ -6,7 +6,7 @@ printf "Updating repos...\n\n"
 pkg update
 pkg upgrade
 printf "Installing packages...\n\n"
-pkg install -y bash openvpn unzip curl wget nano
+pkg install -y bash openvpn unzip curl wget nano transmission
 printf "\nAdding openvpn and firewall lines to /etc/rc.conf\n\n"
 echo '
 openvpn_enable="YES"
@@ -19,12 +19,9 @@ mkdir /usr/local/etc/openvpn
 cd /usr/local/etc/openvpn/ || exit
 wget https://www.privateinternetaccess.com/openvpn/openvpn.zip --no-check-certificate
 mkdir PIA 
-unzip openvpn.zip -d PIA/ 
-cd PIA/ || exit 
-printf "\nUsing UK Southampton server!\n\n"
-cp UK\ Southampton.ovpn .. 
-cd .. 
-mv UK\ Southampton.ovpn openvpn.conf
+unzip openvpn.zip -d PIA/ || exit
+printf "\nUsing DE Frankfurt server!\n\n"
+cp PIA/DE\ Frankfurt.ovpn openvpn.conf 
 echo 'Enter username: '
 read -r username
 echo 'Enter password: '
