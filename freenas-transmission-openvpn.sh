@@ -6,7 +6,7 @@ printf "Updating repos...\n\n"
 pkg update
 pkg upgrade
 printf "Installing packages...\n\n"
-pkg install -y bash openvpn unzip curl wget nano transmission
+pkg install -y bash openvpn unzip curl wget transmission
 printf "\nAdding openvpn and firewall lines to /etc/rc.conf\n\n"
 echo '
 openvpn_enable="YES"
