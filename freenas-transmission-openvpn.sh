@@ -1,19 +1,18 @@
 #!/bin/bash
-printf "Starting OpenVPN setup for Transmission...\n\n"
+printf "Starting OpenVPN setup for rtorrent...\n\n"
 printf "Enabling FreeBSD repo...\n\n"
 sed -i '' -e 's/no/yes/' /usr/local/etc/pkg/repos/FreeBSD.conf
 printf "Updating repos...\n\n"
 pkg update
 pkg upgrade
 printf "Installing packages...\n\n"
-pkg install -y bash openvpn unzip curl wget transmission
+pkg install -y openvpn unzip curl wget
 printf "\nAdding openvpn and firewall lines to /etc/rc.conf\n\n"
 echo '
 openvpn_enable="YES"
 openvpn_configfile="/usr/local/etc/openvpn/openvpn.conf"
 firewall_enable="YES"
 firewall_script="/etc/ipfw.rules"' >> /etc/rc.conf
-sed -i '' -e 's/\/usr\/local\/etc\/transmission\/home\/Downloads/\/media/' /etc/rc.conf
 printf "Downloading PIA OpenVPN configs...\n\n"
 mkdir /usr/local/etc/openvpn
 cd /usr/local/etc/openvpn/ || exit
@@ -38,9 +37,9 @@ echo "
 ipfw -q -f flush
 ipfw -q add 00001 allow all from any to any via lo0
 ipfw -q add 00010 allow all from any to any via tun0
-ipfw -q add 00101 allow all from me to ${ipaddress}/24 uid transmission
-ipfw -q add 00102 allow all from ${ipaddress}/24 to me uid transmission
-ipfw -q add 00103 deny all from any to any uid transmission" > /etc/ipfw.rules
+ipfw -q add 00101 allow all from me to ${ipaddress}/24 uid rtorrent
+ipfw -q add 00102 allow all from ${ipaddress}/24 to me uid rtorrent
+ipfw -q add 00103 deny all from any to any uid rtorrent" > /etc/ipfw.rules
 service ipfw start
 ipfw list
 printf "Finishing up...\n\n"
